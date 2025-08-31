@@ -2,6 +2,7 @@ resource "google_vpc_access_connector" "connector" {
   project = var.project_id
   name    = var.name
   region  = var.region
+  labels  = var.labels
   subnet {
     name = split("/", var.subnet)[length(split("/", var.subnet)) - 1]
   }

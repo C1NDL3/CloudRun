@@ -1,7 +1,7 @@
 resource "google_cloud_run_v2_service" "svc" {
   name     = var.service_name
   location = var.region
-  labels   = var.labels
+  project  = var.project_id
 
   deletion_protection = var.deletion_protection
 
