@@ -3,11 +3,11 @@ resource "google_vpc_access_connector" "connector" {
   name    = var.name
   region  = var.region
   subnet {
-    name    = split("/", var.subnet)[length(split("/", var.subnet)) - 1]
+    name = split("/", var.subnet)[length(split("/", var.subnet)) - 1]
   }
 
-  min_throughput = 200  # Mbps
-  max_throughput = 300  # Mbps
+  min_throughput = 200 # Mbps
+  max_throughput = 300 # Mbps
 }
 
 output "connector_id" {

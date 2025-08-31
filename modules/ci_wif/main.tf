@@ -12,22 +12,22 @@ resource "google_iam_workload_identity_pool" "pool" {
 
 # 2) Provider dla GitHub OIDC
 resource "google_iam_workload_identity_pool_provider" "provider" {
-  project                           = var.project_id
-  workload_identity_pool_id         = google_iam_workload_identity_pool.pool.workload_identity_pool_id
+  project                            = var.project_id
+  workload_identity_pool_id          = google_iam_workload_identity_pool.pool.workload_identity_pool_id
   workload_identity_pool_provider_id = var.provider_id
-  display_name                      = "GitHub Actions OIDC"
-  description                       = "Provider dla token.actions.githubusercontent.com"
-  attribute_condition               = "attribute.repository==\"${var.github_repo}\""
+  display_name                       = "GitHub Actions OIDC"
+  description                        = "Provider dla token.actions.githubusercontent.com"
+  attribute_condition                = "attribute.repository==\"${var.github_repo}\""
   oidc {
     issuer_uri = "https://token.actions.githubusercontent.com"
   }
   attribute_mapping = {
-    "google.subject"   = "assertion.sub"
-    "attribute.actor"  = "assertion.actor"
-    "attribute.repository"= "assertion.repository" 
-    "attribute.ref"    = "assertion.ref"
-    "attribute.sha"    = "assertion.sha"
-    "attribute.workflow" = "assertion.workflow"
+    "google.subject"       = "assertion.sub"
+    "attribute.actor"      = "assertion.actor"
+    "attribute.repository" = "assertion.repository"
+    "attribute.ref"        = "assertion.ref"
+    "attribute.sha"        = "assertion.sha"
+    "attribute.workflow"   = "assertion.workflow"
   }
 }
 
@@ -50,7 +50,7 @@ resource "google_service_account_iam_member" "wif_plan" {
   service_account_id = google_service_account.sa_plan.name
   role               = "roles/iam.workloadIdentityUser"
   # ograniczenie do repo przez ścieżkę principalSet + attribute.repository
-  member             = "principalSet://iam.googleapis.com/projects/${data.google_project.this.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.pool.workload_identity_pool_id}/attribute.repository/${var.github_repo}"
+  member = "principalSet://iam.googleapis.com/projects/${data.google_project.this.number}/locations/global/workloadIdentityPools/${google_iam_workload_identity_pool.pool.workload_identity_pool_id}/attribute.repository/${var.github_repo}"
 }
 
 resource "google_service_account_iam_member" "wif_apply" {

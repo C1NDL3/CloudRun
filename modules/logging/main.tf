@@ -14,8 +14,8 @@ resource "google_logging_project_bucket_config" "logs_14d" {
 # 2) Sink -> kieruje wskazane logi do bucketa 14d
 ############################
 resource "google_logging_project_sink" "to_14d_bucket" {
-  project     = var.project_id
-  name        = "route-app-logs-to-14d"
+  project = var.project_id
+  name    = "route-app-logs-to-14d"
   # Wysyłka do własnego bucketa Logging
   destination = "logging.googleapis.com/projects/${var.project_id}/locations/global/buckets/${google_logging_project_bucket_config.logs_14d.bucket_id}"
 

@@ -30,8 +30,8 @@ jobs:
       - name: Terraform Init
         run: terraform init -upgrade
 
-      - name: Terraform Format
-        run: terraform fmt -check
+      - name: Terraform Format (check & diff)
+        run: terraform fmt -check -diff -recursive
 
       - name: Terraform Validate
         run: terraform validate

@@ -86,8 +86,8 @@ module "logging" {
 }
 
 module "ci_wif" {
-  source     = "./modules/ci_wif"
-  project_id = var.project_id
+  source      = "./modules/ci_wif"
+  project_id  = var.project_id
   github_repo = "C1NDL3/CloudRun"
 
   depends_on = [module.project_services] # zapewnij, że API są włączone (sts/iam/iamcredentials/logging)
