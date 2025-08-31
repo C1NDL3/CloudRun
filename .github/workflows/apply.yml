@@ -1,0 +1,45 @@
+name: Terraform Apply
+
+on:
+  workflow_dispatch:
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Auth w GCP (SA apply)
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.SA_APPLY }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Download tfplan artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+
+      - name: Terraform Apply
+        run: terraform apply "tfplan"
+
+      # Build + Push Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t europe-central2-docker.pkg.dev/${{ secrets.PROJECT_ID }}/hello-repo/hello-python:${{ github.sha }} .
+      - name: Push Docker image
+        run: |
+          gcloud auth configure-docker europe-central2-docker.pkg.dev -q
+          docker push europe-central2-docker.pkg.dev/${{ secrets.PROJECT_ID }}/hello-repo/hello-python:${{ github.sha }}
