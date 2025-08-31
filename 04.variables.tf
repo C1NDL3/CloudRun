@@ -62,13 +62,3 @@ variable "cloud_run_service_name" {
   type        = string
   default     = "hello-python-svc"
 }
-
-variable "labels" {
-  description = "Common labels to apply where supported"
-  type        = map(string)
-  default = {
-    project = "static-website"
-    owner   = "devops"
-    env     = "dev"
-  }
-}
