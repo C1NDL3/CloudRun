@@ -34,7 +34,6 @@ module "cloud_nat" {
   region     = var.region1
   vpc_name   = var.vpc_name
   nat_name   = "demo-nat"
-  labels     = local.common_labels
 
   depends_on = [module.network]
 }
@@ -44,7 +43,6 @@ module "artifact_registry" {
   project_id = var.project_id
   location   = var.artifact_repo_location
   repo_name  = var.artifact_repo_name
-  labels     = local.common_labels
 
   depends_on = [module.project_services]
 }

@@ -4,7 +4,6 @@ resource "google_artifact_registry_repository" "repo" {
   repository_id = var.repo_name
   description   = "Docker images for hello-python"
   format        = "DOCKER"
-  labels        = var.labels
 }
 
 output "repository_url" {
