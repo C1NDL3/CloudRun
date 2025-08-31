@@ -12,7 +12,7 @@ module "network" {
   subnet1_cidr          = var.subnet1_cidr
   subnet2_cidr          = var.subnet2_cidr
   subnet_connector_cidr = var.subnet_connector_cidr
-  labels                = local.common_labels
+
 
   depends_on = [module.project_services]
 }
@@ -23,7 +23,7 @@ module "vpc_connector" {
   name       = "svc-connector"
   region     = var.region1
   subnet     = module.network.subnet_connector_self_link
-  labels     = local.common_labels
+
 
   depends_on = [module.network]
 }
@@ -56,7 +56,7 @@ module "cloud_run" {
   service_name  = var.cloud_run_service_name
   image         = var.image_name
   vpc_connector = module.vpc_connector.connector_id
-  labels        = local.common_labels
+
   # NOWE – ustaw na false, żeby pozwolić na destroy/create
   deletion_protection = false
 
@@ -73,7 +73,7 @@ module "lb_http_serverless" {
   target_proxy_name      = "srvless-http-proxy"
   neg_name               = "srvless-neg"
   cloud_run_service_name = var.cloud_run_service_name
-  labels                 = local.common_labels
+
 
   depends_on = [module.cloud_run]
 }
